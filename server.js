@@ -1,6 +1,14 @@
 const express = require('express');
 const path = require('path');
 
+// Initialize database on startup
+try {
+    require('./data/init-db.js');
+    console.log('Database initialization completed');
+} catch (error) {
+    console.error('Database initialization failed:', error);
+}
+
 const app = express();
 
 // Set up EJS as the view engine

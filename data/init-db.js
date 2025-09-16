@@ -1,12 +1,18 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
-
-const dbPath = path.join(__dirname, 'vehicles.db');
-// Remove the existing file if it exists and create a new one
 const fs = require('fs');
+
+// Determine database path based on environment
+const dbPath = process.env.NODE_ENV === 'production' 
+    ? path.join(__dirname, 'vehicles.db')
+    : path.join(__dirname, 'vehicles.db');
+
+// Remove the existing file if it exists and create a new one
 if (fs.existsSync(dbPath)) {
     fs.unlinkSync(dbPath);
 }
+
+console.log('Initializing database at:', dbPath);
 const db = new sqlite3.Database(dbPath);
 
 // Create tables
@@ -141,4 +147,11 @@ db.serialize(() => {
     console.log('Database initialized successfully');
 });
 
-db.close();
+db.close((err) => {
+    if (err) {
+        console.error('Error closing database:', err);
+        process.exit(1);
+    } else {
+        console.log('Database connection closed successfully');
+    }
+});

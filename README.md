@@ -138,9 +138,12 @@ This is a Node.js MVC application that displays vehicle inventory with detailed 
 
 ### Render.com
 1. Connect your GitHub repository to Render
-2. Set build command: `npm install && node setup.js`
+2. Set build command: `npm install && npm run build`
 3. Set start command: `npm start`
-4. Deploy the application
+4. Set environment variable: `NODE_ENV=production`
+5. Deploy the application
+
+**Note**: The database will be automatically initialized during the build process.
 
 ## Assignment Grading Criteria
 
