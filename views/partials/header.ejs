@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/large.css" media="(min-width: 768px)">
+    <link rel="stylesheet" href="/css/small.css" media="(max-width: 767px)">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Vehicle Inventory</h1>
+            </div>
+            <nav>
+                <ul>
+                    <% nav.forEach(item => { %>
+                        <li><a href="<%= item.link %>"><%= item.text %></a></li>
+                    <% }); %>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>

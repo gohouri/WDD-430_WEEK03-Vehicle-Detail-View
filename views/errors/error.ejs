@@ -1,0 +1,32 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+    <div class="error-page">
+        <h1><%= status %> Error</h1>
+        <h2><%= message %></h2>
+        
+        <div class="error-content">
+            <p>We're sorry, but something went wrong.</p>
+            
+            <% if (status === 404) { %>
+                <p>The page you're looking for doesn't exist.</p>
+                <a href="/" class="btn btn-primary">Go Home</a>
+            <% } else if (status === 500) { %>
+                <p>An internal server error occurred. Please try again later.</p>
+                <a href="/" class="btn btn-primary">Go Home</a>
+            <% } else { %>
+                <p>An unexpected error occurred.</p>
+                <a href="/" class="btn btn-primary">Go Home</a>
+            <% } %>
+        </div>
+        
+        <% if (process.env.NODE_ENV === 'development' && error) { %>
+            <div class="error-details">
+                <h3>Error Details (Development Only)</h3>
+                <pre><%= JSON.stringify(error, null, 2) %></pre>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

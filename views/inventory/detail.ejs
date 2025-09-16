@@ -1,0 +1,69 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+    <div class="vehicle-detail-container">
+        <div class="vehicle-image-section">
+            <img src="<%= vehicle.inv_image %>" alt="<%= vehicle.inv_year %> <%= vehicle.inv_make %> <%= vehicle.inv_model %>" class="vehicle-main-image">
+            <div class="certification-banner">
+                <p>This vehicle has passed inspection by an ASE-certified technician.</p>
+                <div class="certification-logo">
+                    <strong>ENTERPRISE CERTIFIED</strong>
+                    <p>Quality | Value</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="vehicle-info-section">
+            <h1 class="vehicle-title"><%= vehicle.inv_year %> <%= vehicle.inv_make %> <%= vehicle.inv_model %></h1>
+            
+            <div class="price-section">
+                <h2 class="vehicle-price"><%= new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(vehicle.inv_price) %></h2>
+                <p class="price-disclaimer">No-Haggle Price¹</p>
+                <p class="price-note">Does not include $321 Dealer Documentary Service Fees.</p>
+                
+                <div class="mileage-display">
+                    <span class="mileage-label">MILEAGE</span>
+                    <span class="mileage-value"><%= new Intl.NumberFormat('en-US').format(vehicle.inv_miles) %></span>
+                </div>
+                
+                <button class="btn btn-primary estimate-btn">ESTIMATE PAYMENTS</button>
+            </div>
+            
+            <div class="vehicle-specifications">
+                <h3>Vehicle Specifications</h3>
+                <ul class="spec-list">
+                    <li><strong>Mileage:</strong> <%= new Intl.NumberFormat('en-US').format(vehicle.inv_miles) %></li>
+                    <li><strong>MPG:</strong> 29/37 (City/Hwy)</li>
+                    <li><strong>Exterior Color:</strong> <%= vehicle.inv_color || 'Unknown' %></li>
+                    <li><strong>Interior Color:</strong> Black</li>
+                    <li><strong>Fuel Type:</strong> Gasoline</li>
+                    <li><strong>Drivetrain:</strong> Front Wheel Drive</li>
+                    <li><strong>Transmission:</strong> Automatic</li>
+                    <li><strong>Classification:</strong> <%= vehicle.classification_name %></li>
+                    <li><strong>Stock #:</strong> <%= vehicle.inv_id.toString().padStart(6, '0') %></li>
+                    <li><strong>VIN:</strong> <%= vehicle.inv_id.toString().padStart(17, '0') %></li>
+                    <li><strong>Prior Use:</strong> The principal prior use of this vehicle was as a Rental Vehicle.</li>
+                </ul>
+            </div>
+            
+            <div class="vehicle-description">
+                <h3>Description</h3>
+                <p><%= vehicle.inv_description || 'No description available.' %></p>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary">START MY PURCHASE</button>
+                <button class="btn btn-secondary">CONTACT US</button>
+                <button class="btn btn-secondary">SCHEDULE TEST DRIVE</button>
+                <button class="btn btn-secondary">APPLY FOR FINANCING</button>
+            </div>
+            
+            <div class="contact-info">
+                <p><strong>Call Us:</strong> <span class="phone-number">801-396-7886</span></p>
+                <p><strong>Visit Us:</strong> 123 Main Street, Anytown, ST 12345</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,27 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+    <h1><%= className %> Inventory</h1>
+    
+    <div class="vehicle-grid">
+        <% vehicles.forEach(vehicle => { %>
+            <div class="vehicle-card">
+                <div class="vehicle-image">
+                    <img src="<%= vehicle.inv_thumbnail %>" alt="<%= vehicle.inv_year %> <%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+                </div>
+                <div class="vehicle-info">
+                    <h3><%= vehicle.inv_year %> <%= vehicle.inv_make %> <%= vehicle.inv_model %></h3>
+                    <p class="vehicle-price"><%= new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(vehicle.inv_price) %></p>
+                    <p class="vehicle-miles"><%= new Intl.NumberFormat('en-US').format(vehicle.inv_miles) %> miles</p>
+                    <a href="/inventory/detail/<%= vehicle.inv_id %>" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+    
+    <% if (vehicles.length === 0) { %>
+        <p>No vehicles found in this classification.</p>
+    <% } %>
+</div>
+
+<%- include('../partials/footer') %>

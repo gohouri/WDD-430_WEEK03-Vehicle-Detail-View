@@ -1,0 +1,46 @@
+/* Large screen styles (768px and up) */
+
+/* Vehicle detail - side by side layout */
+.vehicle-detail-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+}
+
+.vehicle-main-image {
+    height: 500px;
+}
+
+/* Action buttons - horizontal layout */
+.action-buttons {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+/* Hero section adjustments */
+.hero h1 {
+    font-size: 4rem;
+}
+
+.hero p {
+    font-size: 1.5rem;
+}
+
+/* Navigation adjustments */
+nav ul {
+    gap: 3rem;
+}
+
+/* Feature grid adjustments */
+.feature-grid {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* Vehicle grid adjustments */
+.vehicle-grid {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+}
+
+/* Container adjustments */
+.container {
+    padding: 0 40px;
+}

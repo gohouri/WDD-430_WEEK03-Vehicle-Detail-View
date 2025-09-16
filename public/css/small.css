@@ -1,0 +1,94 @@
+/* Small screen styles (767px and below) */
+
+/* Navigation - mobile menu */
+nav ul {
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    text-align: center;
+}
+
+nav a {
+    display: block;
+    padding: 1rem;
+    border-radius: 0;
+}
+
+/* Hero section - mobile adjustments */
+.hero h1 {
+    font-size: 2.5rem;
+}
+
+.hero p {
+    font-size: 1.1rem;
+}
+
+.cta-buttons {
+    flex-direction: column;
+    align-items: center;
+}
+
+.cta-buttons .btn {
+    width: 100%;
+    max-width: 300px;
+}
+
+/* Vehicle detail - stacked layout */
+.vehicle-detail-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.vehicle-main-image {
+    height: 300px;
+}
+
+.vehicle-title {
+    font-size: 2rem;
+}
+
+.vehicle-price {
+    font-size: 2.5rem;
+}
+
+/* Action buttons - stacked */
+.action-buttons {
+    grid-template-columns: 1fr;
+}
+
+.action-buttons .btn {
+    width: 100%;
+}
+
+/* Feature grid - single column */
+.feature-grid {
+    grid-template-columns: 1fr;
+}
+
+/* Vehicle grid - single column */
+.vehicle-grid {
+    grid-template-columns: 1fr;
+}
+
+/* Container - reduced padding */
+.container {
+    padding: 0 15px;
+}
+
+/* Error page - mobile adjustments */
+.error-page h1 {
+    font-size: 3rem;
+}
+
+.error-page h2 {
+    font-size: 1.5rem;
+}
+
+/* Footer - mobile adjustments */
+footer {
+    padding: 1.5rem 0;
+}
+
+footer p {
+    margin-bottom: 0.5rem;
+}
