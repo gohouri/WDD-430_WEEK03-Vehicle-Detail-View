@@ -1,17 +1,37 @@
 const InventoryModel = require('../models/inventory');
 
-// Navigation data
-const nav = [
-    { link: '/', text: 'Home' },
-    { link: '/inventory/classification/1', text: 'SUVs' },
-    { link: '/inventory/classification/2', text: 'Sedans' },
-    { link: '/inventory/classification/3', text: 'Trucks' },
-    { link: '/inventory/classification/4', text: 'Coupes' }
-];
-
-// Get navigation
+// Get navigation - now dynamic from database
 async function getNav() {
-    return nav;
+    try {
+        const inventoryModel = new InventoryModel();
+        const classifications = await inventoryModel.getClassifications();
+        inventoryModel.close();
+        
+        // Build navigation with Home link first, then dynamic classifications
+        const nav = [
+            { link: '/', text: 'Home' }
+        ];
+        
+        // Add each classification to navigation
+        classifications.forEach(classification => {
+            nav.push({
+                link: `/inventory/classification/${classification.classification_id}`,
+                text: classification.classification_name
+            });
+        });
+        
+        return nav;
+    } catch (error) {
+        console.error('Error building navigation, using fallback:', error);
+        // Fallback to static navigation if database fails
+        return [
+            { link: '/', text: 'Home' },
+            { link: '/inventory/classification/1', text: 'SUVs' },
+            { link: '/inventory/classification/2', text: 'Sedans' },
+            { link: '/inventory/classification/3', text: 'Trucks' },
+            { link: '/inventory/classification/4', text: 'Coupes' }
+        ];
+    }
 }
 
 // Build classification list for forms

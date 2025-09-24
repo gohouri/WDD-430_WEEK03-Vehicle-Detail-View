@@ -2,51 +2,163 @@
 
 <div class="container">
     <h1>Add New Vehicle</h1>
+    <p>Add a new vehicle to your inventory with detailed specifications.</p>
     
-    <form action="/inventory/add-vehicle" method="POST" class="vehicle-form">
-        <div class="form-group">
-            <label for="inv_make">Make:</label>
-            <input type="text" id="inv_make" name="inv_make" required>
+    <!-- Flash Messages -->
+    <% if (typeof message !== 'undefined' && message) { %>
+        <div class="alert alert-<%= messageType || 'info' %>">
+            <%= message %>
         </div>
-        
-        <div class="form-group">
-            <label for="inv_model">Model:</label>
-            <input type="text" id="inv_model" name="inv_model" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="inv_year">Year:</label>
-            <input type="number" id="inv_year" name="inv_year" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="inv_price">Price:</label>
-            <input type="number" id="inv_price" name="inv_price" step="0.01" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="inv_miles">Miles:</label>
-            <input type="number" id="inv_miles" name="inv_miles" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="inv_color">Color:</label>
-            <input type="text" id="inv_color" name="inv_color">
-        </div>
-        
-        <div class="form-group">
-            <label for="inv_description">Description:</label>
-            <textarea id="inv_description" name="inv_description" rows="4"></textarea>
-        </div>
-        
-        <div class="form-group">
-            <label for="classification_id">Classification:</label>
-            <select id="classification_id" name="classification_id" required>
-                <option value="">Select Classification</option>
-                <% classificationSelect.forEach(classification => { %>
-                    <option value="<%= classification.value %>"><%= classification.name %></option>
+    <% } %>
+    
+    <!-- Validation Errors -->
+    <% if (typeof errors !== 'undefined' && errors && errors.length > 0) { %>
+        <div class="alert alert-error">
+            <h3>Please correct the following errors:</h3>
+            <ul>
+                <% errors.forEach(error => { %>
+                    <li><%= error %></li>
                 <% }); %>
-            </select>
+            </ul>
+        </div>
+    <% } %>
+    
+    <form action="/inventory/add-vehicle" method="POST" class="vehicle-form" id="vehicleForm">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="inv_make">Make: <span class="required">*</span></label>
+                <input 
+                    type="text" 
+                    id="inv_make" 
+                    name="inv_make" 
+                    value="<%= typeof inv_make !== 'undefined' ? inv_make : '' %>"
+                    required
+                    maxlength="50"
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="inv_model">Model: <span class="required">*</span></label>
+                <input 
+                    type="text" 
+                    id="inv_model" 
+                    name="inv_model" 
+                    value="<%= typeof inv_model !== 'undefined' ? inv_model : '' %>"
+                    required
+                    maxlength="50"
+                >
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="inv_year">Year: <span class="required">*</span></label>
+                <input 
+                    type="number" 
+                    id="inv_year" 
+                    name="inv_year" 
+                    value="<%= typeof inv_year !== 'undefined' ? inv_year : '' %>"
+                    required
+                    min="1900"
+                    max="<%= new Date().getFullYear() + 1 %>"
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="inv_classification_id">Classification: <span class="required">*</span></label>
+                <select id="inv_classification_id" name="inv_classification_id" required>
+                    <option value="">Choose a Classification</option>
+                    <% classificationSelect.forEach(classification => { %>
+                        <option 
+                            value="<%= classification.value %>"
+                            <%= (typeof inv_classification_id !== 'undefined' && inv_classification_id == classification.value) ? 'selected' : '' %>
+                        >
+                            <%= classification.name %>
+                        </option>
+                    <% }); %>
+                </select>
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="inv_price">Price: <span class="required">*</span></label>
+                <input 
+                    type="number" 
+                    id="inv_price" 
+                    name="inv_price" 
+                    value="<%= typeof inv_price !== 'undefined' ? inv_price : '' %>"
+                    step="0.01" 
+                    min="0"
+                    max="1000000"
+                    required
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="inv_miles">Miles: <span class="required">*</span></label>
+                <input 
+                    type="number" 
+                    id="inv_miles" 
+                    name="inv_miles" 
+                    value="<%= typeof inv_miles !== 'undefined' ? inv_miles : '' %>"
+                    min="0"
+                    max="999999"
+                    required
+                >
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="inv_color">Color: <span class="required">*</span></label>
+            <input 
+                type="text" 
+                id="inv_color" 
+                name="inv_color"
+                value="<%= typeof inv_color !== 'undefined' ? inv_color : '' %>"
+                maxlength="50"
+                required
+            >
+        </div>
+        
+        <div class="form-group">
+            <label for="inv_description">Description: <span class="required">*</span></label>
+            <textarea 
+                id="inv_description" 
+                name="inv_description" 
+                rows="4"
+                maxlength="500"
+                required
+            ><%= typeof inv_description !== 'undefined' ? inv_description : '' %></textarea>
+            <small class="form-help">Maximum 500 characters</small>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="inv_image">Image Path: <span class="required">*</span></label>
+                <input 
+                    type="text" 
+                    id="inv_image" 
+                    name="inv_image" 
+                    value="<%= typeof inv_image !== 'undefined' ? inv_image : '/images/vehicles/no-image.jpg' %>"
+                    required
+                    placeholder="/images/vehicles/no-image.jpg"
+                >
+                <small class="form-help">Default: /images/vehicles/no-image.jpg</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="inv_thumbnail">Thumbnail Path: <span class="required">*</span></label>
+                <input 
+                    type="text" 
+                    id="inv_thumbnail" 
+                    name="inv_thumbnail" 
+                    value="<%= typeof inv_thumbnail !== 'undefined' ? inv_thumbnail : '/images/vehicles/thumbnails/no-image.jpg' %>"
+                    required
+                    placeholder="/images/vehicles/thumbnails/no-image.jpg"
+                >
+                <small class="form-help">Default: /images/vehicles/thumbnails/no-image.jpg</small>
+            </div>
         </div>
         
         <div class="form-actions">
@@ -55,5 +167,62 @@
         </div>
     </form>
 </div>
+
+<script>
+// Client-side validation
+document.getElementById('vehicleForm').addEventListener('submit', function(e) {
+    const make = document.getElementById('inv_make').value.trim();
+    const model = document.getElementById('inv_model').value.trim();
+    const year = parseInt(document.getElementById('inv_year').value);
+    const price = parseFloat(document.getElementById('inv_price').value);
+    const miles = parseInt(document.getElementById('inv_miles').value);
+    const classification = document.getElementById('inv_classification_id').value;
+    const color = document.getElementById('inv_color').value.trim();
+    const description = document.getElementById('inv_description').value.trim();
+    const image = document.getElementById('inv_image').value.trim();
+    const thumbnail = document.getElementById('inv_thumbnail').value.trim();
+    
+    const errors = [];
+    
+    // Required field validation
+    if (!make) errors.push('Make is required.');
+    if (!model) errors.push('Model is required.');
+    if (!year || isNaN(year)) errors.push('Valid year is required.');
+    if (!price || isNaN(price) || price <= 0) errors.push('Valid price is required.');
+    if (!miles || isNaN(miles) || miles < 0) errors.push('Valid mileage is required.');
+    if (!classification) errors.push('Classification is required.');
+    if (!color) errors.push('Color is required.');
+    if (!description) errors.push('Description is required.');
+    if (!image) errors.push('Image path is required.');
+    if (!thumbnail) errors.push('Thumbnail path is required.');
+    
+    // Year range validation
+    if (year && (year < 1900 || year > new Date().getFullYear() + 1)) {
+        errors.push('Year must be between 1900 and ' + (new Date().getFullYear() + 1) + '.');
+    }
+    
+    // Price validation
+    if (price && price > 1000000) {
+        errors.push('Price cannot exceed $1,000,000.');
+    }
+    
+    // Mileage validation
+    if (miles && miles > 999999) {
+        errors.push('Mileage cannot exceed 999,999 miles.');
+    }
+    
+    // Length validation
+    if (make && make.length > 50) errors.push('Make cannot exceed 50 characters.');
+    if (model && model.length > 50) errors.push('Model cannot exceed 50 characters.');
+    if (color && color.length > 50) errors.push('Color cannot exceed 50 characters.');
+    if (description && description.length > 500) errors.push('Description cannot exceed 500 characters.');
+    
+    if (errors.length > 0) {
+        e.preventDefault();
+        alert('Please correct the following errors:\n\n' + errors.join('\n'));
+        return;
+    }
+});
+</script>
 
 <%- include('../partials/footer') %>

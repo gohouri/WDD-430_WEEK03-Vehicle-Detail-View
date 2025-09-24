@@ -30,6 +30,22 @@ nav ul {
     gap: 3rem;
 }
 
+/* Form layout adjustments for large screens */
+.form-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.action-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.info-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
 /* Feature grid adjustments */
 .feature-grid {
     grid-template-columns: repeat(3, 1fr);

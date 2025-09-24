@@ -74,6 +74,59 @@ class InventoryModel {
         });
     }
 
+    // Add new classification
+    addClassification(classificationName) {
+        return new Promise((resolve, reject) => {
+            const sql = `INSERT INTO classifications (classification_name) VALUES (?)`;
+            this.db.run(sql, [classificationName], function(err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve({
+                        success: true,
+                        classification_id: this.lastID,
+                        classification_name: classificationName
+                    });
+                }
+            });
+        });
+    }
+
+    // Add new vehicle to inventory
+    addVehicle(vehicleData) {
+        return new Promise((resolve, reject) => {
+            const sql = `INSERT INTO inventory (
+                inv_make, inv_model, inv_year, inv_description, 
+                inv_image, inv_thumbnail, inv_price, inv_miles, 
+                inv_color, inv_classification_id
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+            
+            const values = [
+                vehicleData.inv_make,
+                vehicleData.inv_model,
+                vehicleData.inv_year,
+                vehicleData.inv_description,
+                vehicleData.inv_image,
+                vehicleData.inv_thumbnail,
+                vehicleData.inv_price,
+                vehicleData.inv_miles,
+                vehicleData.inv_color,
+                vehicleData.inv_classification_id
+            ];
+            
+            this.db.run(sql, values, function(err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve({
+                        success: true,
+                        inv_id: this.lastID
+                    });
+                }
+            });
+        });
+    }
+
     close() {
         this.db.close();
     }

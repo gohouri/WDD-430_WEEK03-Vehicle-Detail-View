@@ -3,7 +3,16 @@
 <div class="container">
     <div class="vehicle-detail-container">
         <div class="vehicle-image-section">
-            <img src="<%= vehicle.inv_image %>" alt="<%= vehicle.inv_year %> <%= vehicle.inv_make %> <%= vehicle.inv_model %>" class="vehicle-main-image">
+            <% if (vehicle.inv_image && vehicle.inv_image !== '/images/vehicles/no-image.jpg') { %>
+                <img src="<%= vehicle.inv_image %>" alt="<%= vehicle.inv_year %> <%= vehicle.inv_make %> <%= vehicle.inv_model %>" class="vehicle-main-image">
+            <% } else { %>
+                <div class="no-image-placeholder">
+                    <div class="no-image-content">
+                        <h3>No Image Available</h3>
+                        <p>This vehicle does not have an image at this time.</p>
+                    </div>
+                </div>
+            <% } %>
             <div class="certification-banner">
                 <p>This vehicle has passed inspection by an ASE-certified technician.</p>
                 <div class="certification-logo">

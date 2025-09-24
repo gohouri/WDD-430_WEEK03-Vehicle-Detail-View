@@ -1,0 +1,78 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+    <h1>Add New Classification</h1>
+    <p>Add a new vehicle classification to organize your inventory.</p>
+    
+    <!-- Flash Messages -->
+    <% if (typeof message !== 'undefined' && message) { %>
+        <div class="alert alert-<%= messageType || 'info' %>">
+            <%= message %>
+        </div>
+    <% } %>
+    
+    <!-- Validation Errors -->
+    <% if (typeof errors !== 'undefined' && errors && errors.length > 0) { %>
+        <div class="alert alert-error">
+            <h3>Please correct the following errors:</h3>
+            <ul>
+                <% errors.forEach(error => { %>
+                    <li><%= error %></li>
+                <% }); %>
+            </ul>
+        </div>
+    <% } %>
+    
+    <form action="/inventory/add-classification" method="POST" class="classification-form" id="classificationForm">
+        <div class="form-group">
+            <label for="classification_name">Classification Name:</label>
+            <input 
+                type="text" 
+                id="classification_name" 
+                name="classification_name" 
+                value="<%= typeof classification_name !== 'undefined' ? classification_name : '' %>"
+                required
+                pattern="^[a-zA-Z0-9]+$"
+                title="Classification name cannot contain spaces or special characters"
+                maxlength="30"
+            >
+            <small class="form-help">
+                <strong>Important:</strong> The classification name cannot contain spaces or special characters of any kind. 
+                Only letters and numbers are allowed (e.g., "SUV", "Sedan", "Truck", "Coupe").
+            </small>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Add Classification</button>
+            <a href="/inventory/management" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<script>
+// Client-side validation
+document.getElementById('classificationForm').addEventListener('submit', function(e) {
+    const classificationName = document.getElementById('classification_name').value.trim();
+    const pattern = /^[a-zA-Z0-9]+$/;
+    
+    if (!classificationName) {
+        e.preventDefault();
+        alert('Classification name is required.');
+        return;
+    }
+    
+    if (!pattern.test(classificationName)) {
+        e.preventDefault();
+        alert('Classification name cannot contain spaces or special characters. Only letters and numbers are allowed.');
+        return;
+    }
+    
+    if (classificationName.length > 30) {
+        e.preventDefault();
+        alert('Classification name cannot exceed 30 characters.');
+        return;
+    }
+});
+</script>
+
+<%- include('../partials/footer') %>

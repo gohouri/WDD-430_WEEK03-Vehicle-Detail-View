@@ -7,9 +7,10 @@ const dbPath = process.env.NODE_ENV === 'production'
     ? path.join(__dirname, 'vehicles.db')
     : path.join(__dirname, 'vehicles.db');
 
-// Remove the existing file if it exists and create a new one
+// Only create database if it doesn't exist
 if (fs.existsSync(dbPath)) {
-    fs.unlinkSync(dbPath);
+    console.log('Database already exists, skipping initialization');
+    return;
 }
 
 console.log('Initializing database at:', dbPath);

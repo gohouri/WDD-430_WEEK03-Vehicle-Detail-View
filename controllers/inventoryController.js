@@ -56,13 +56,52 @@ class InventoryController {
     async buildManagementView(req, res, next) {
         try {
             const nav = await utilities.getNav();
-            const classificationSelect = await utilities.buildClassificationList();
             
             res.render('./inventory/management', {
                 title: 'Vehicle Management',
                 nav,
-                classificationSelect
+                message: req.flash ? req.flash('notice') : null,
+                messageType: req.flash ? 'success' : null
             });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    // Build add classification view
+    async buildAddClassificationView(req, res, next) {
+        try {
+            const nav = await utilities.getNav();
+            
+            res.render('./inventory/add-classification', {
+                title: 'Add New Classification',
+                nav,
+                message: req.flash ? req.flash('notice') : null,
+                messageType: req.flash ? 'success' : null
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    // Process add classification
+    async addClassification(req, res, next) {
+        try {
+            const { classification_name } = req.body;
+            
+            const result = await this.inventoryModel.addClassification(classification_name);
+            
+            if (result.success) {
+                // Set success message
+                if (req.flash) {
+                    req.flash('notice', `Classification "${classification_name}" has been successfully added and is now available in the navigation menu.`);
+                }
+                
+                // Redirect to management view (navigation will be refreshed automatically)
+                res.redirect('/inventory/management');
+            } else {
+                throw new Error('Failed to add classification');
+            }
         } catch (error) {
             next(error);
         }
@@ -87,12 +126,38 @@ class InventoryController {
     // Process add vehicle
     async addVehicle(req, res, next) {
         try {
-            const { classification_id, inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color } = req.body;
+            const { 
+                inv_make, inv_model, inv_year, inv_description, 
+                inv_price, inv_miles, inv_color, inv_classification_id,
+                inv_image, inv_thumbnail
+            } = req.body;
             
-            // Add vehicle logic would go here
-            // For now, just redirect to management
-            req.flash('notice', 'Vehicle added successfully');
-            res.redirect('/inventory/management');
+            const vehicleData = {
+                inv_make,
+                inv_model,
+                inv_year,
+                inv_description,
+                inv_image,
+                inv_thumbnail,
+                inv_price,
+                inv_miles,
+                inv_color,
+                inv_classification_id
+            };
+            
+            const result = await this.inventoryModel.addVehicle(vehicleData);
+            
+            if (result.success) {
+                // Set success message
+                if (req.flash) {
+                    req.flash('notice', `Vehicle "${inv_year} ${inv_make} ${inv_model}" has been successfully added to inventory.`);
+                }
+                
+                // Redirect to management view
+                res.redirect('/inventory/management');
+            } else {
+                throw new Error('Failed to add vehicle');
+            }
         } catch (error) {
             next(error);
         }

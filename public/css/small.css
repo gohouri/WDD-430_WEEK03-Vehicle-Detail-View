@@ -39,6 +39,22 @@ nav a {
     gap: 1rem;
 }
 
+/* Form layout - stacked on small screens */
+.form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.action-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.info-cards {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
 .vehicle-main-image {
     height: 300px;
 }

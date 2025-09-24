@@ -2,15 +2,34 @@
 
 <div class="container">
     <h1>Vehicle Management</h1>
-    <p>Manage your vehicle inventory here.</p>
+    <p>Manage your vehicle inventory and classifications here.</p>
+    
+    <!-- Flash Messages -->
+    <% if (typeof message !== 'undefined' && message) { %>
+        <div class="alert alert-<%= messageType || 'info' %>">
+            <%= message %>
+        </div>
+    <% } %>
     
     <div class="management-actions">
-        <a href="/inventory/add-vehicle" class="btn btn-primary">Add New Vehicle</a>
+        <div class="action-grid">
+            <a href="/inventory/add-classification" class="btn btn-primary">Add New Classification</a>
+            <a href="/inventory/add-vehicle" class="btn btn-primary">Add New Vehicle</a>
+        </div>
     </div>
     
-    <div class="vehicle-list">
-        <h2>Current Inventory</h2>
-        <p>Vehicle management functionality would be implemented here.</p>
+    <div class="management-info">
+        <h2>Management Options</h2>
+        <div class="info-cards">
+            <div class="info-card">
+                <h3>Classifications</h3>
+                <p>Add new vehicle classifications to organize your inventory by type (SUV, Sedan, Truck, Coupe, etc.)</p>
+            </div>
+            <div class="info-card">
+                <h3>Inventory</h3>
+                <p>Add new vehicles to your inventory with detailed specifications, pricing, and images</p>
+            </div>
+        </div>
     </div>
 </div>
 
