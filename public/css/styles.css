@@ -70,12 +70,12 @@ nav a:hover {
 }
 
 .btn-primary {
-    background-color: #27ae60;
+    background-color: #1e7e34;
     color: white;
 }
 
 .btn-primary:hover {
-    background-color: #219a52;
+    background-color: #155724;
 }
 
 .btn-secondary {
@@ -452,11 +452,12 @@ footer {
 }
 
 .error-link {
-    color: #e74c3c;
+    color: #ff6b6b;
     text-decoration: none;
 }
 
 .error-link:hover {
+    color: #ff5252;
     text-decoration: underline;
 }
 
