@@ -452,12 +452,12 @@ footer {
 }
 
 .error-link {
-    color: #ff6b6b;
+    color: #ff9999;
     text-decoration: none;
 }
 
 .error-link:hover {
-    color: #ff5252;
+    color: #ffcccc;
     text-decoration: underline;
 }
 
