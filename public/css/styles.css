@@ -563,3 +563,145 @@ footer {
     font-size: 1rem;
     margin: 0;
 }
+
+/* Account form styles */
+.account-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.account-container h1 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.account-container h2 {
+    color: #34495e;
+    margin: 2rem 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #ecf0f1;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #ecf0f1;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="password"]:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.form-group small {
+    display: block;
+    margin-top: 0.25rem;
+    color: #7f8c8d;
+    font-size: 0.875rem;
+}
+
+.form-group button {
+    background-color: #3498db;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-group button:hover {
+    background-color: #2980b9;
+}
+
+.message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    border: 1px solid #c3e6cb;
+}
+
+.errors {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    border: 1px solid #f5c6cb;
+}
+
+.errors ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.errors li {
+    margin-bottom: 0.25rem;
+}
+
+.account-links {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.account-links a {
+    color: #3498db;
+    text-decoration: none;
+    margin: 0 1rem;
+}
+
+.account-links a:hover {
+    text-decoration: underline;
+}
+
+/* Management view specific styles */
+.management-container h2 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.management-container h3 {
+    color: #34495e;
+    margin: 1.5rem 0 0.5rem 0;
+}
+
+.management-container p {
+    margin-bottom: 1rem;
+}
+
+.management-container a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.management-container a:hover {
+    text-decoration: underline;
+}

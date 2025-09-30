@@ -11,7 +11,9 @@ router.get('/', async (req, res, next) => {
         const nav = await utilities.getNav();
         res.render('index', {
             title: 'Home',
-            nav
+            nav,
+            account: res.locals.account,
+            loggedIn: res.locals.loggedIn
         });
     } catch (error) {
         next(error);

@@ -24,6 +24,16 @@ db.serialize(() => {
         classification_name TEXT NOT NULL
     )`);
 
+    // Create accounts table
+    db.run(`CREATE TABLE IF NOT EXISTS accounts (
+        account_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        account_firstname TEXT NOT NULL,
+        account_lastname TEXT NOT NULL,
+        account_email TEXT UNIQUE NOT NULL,
+        account_password TEXT NOT NULL,
+        account_type TEXT NOT NULL DEFAULT 'Client'
+    )`);
+
     // Create inventory table
     db.run(`CREATE TABLE IF NOT EXISTS inventory (
         inv_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -144,6 +154,51 @@ db.serialize(() => {
         );
     });
     stmt2.finalize();
+
+    // Insert sample accounts (passwords are hashed versions of 'password123')
+    const bcrypt = require('bcryptjs');
+    const accounts = [
+        {
+            id: 1,
+            firstname: 'Basic',
+            lastname: 'Client',
+            email: 'client@example.com',
+            password: bcrypt.hashSync('password123', 10),
+            type: 'Client'
+        },
+        {
+            id: 2,
+            firstname: 'Happy',
+            lastname: 'Employee',
+            email: 'employee@example.com',
+            password: bcrypt.hashSync('password123', 10),
+            type: 'Employee'
+        },
+        {
+            id: 3,
+            firstname: 'Admin',
+            lastname: 'User',
+            email: 'admin@example.com',
+            password: bcrypt.hashSync('password123', 10),
+            type: 'Admin'
+        }
+    ];
+
+    const stmt3 = db.prepare(`INSERT OR IGNORE INTO accounts 
+        (account_id, account_firstname, account_lastname, account_email, account_password, account_type) 
+        VALUES (?, ?, ?, ?, ?, ?)`);
+    
+    accounts.forEach(account => {
+        stmt3.run(
+            account.id,
+            account.firstname,
+            account.lastname,
+            account.email,
+            account.password,
+            account.type
+        );
+    });
+    stmt3.finalize();
 
     console.log('Database initialized successfully');
 });

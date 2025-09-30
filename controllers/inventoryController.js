@@ -20,7 +20,9 @@ class InventoryController {
                 title: className,
                 nav,
                 vehicles,
-                className
+                className,
+                account: res.locals.account,
+                loggedIn: res.locals.loggedIn
             });
         } catch (error) {
             next(error);
@@ -45,7 +47,9 @@ class InventoryController {
             res.render('./inventory/detail', {
                 title: vehicleName,
                 nav,
-                vehicle
+                vehicle,
+                account: res.locals.account,
+                loggedIn: res.locals.loggedIn
             });
         } catch (error) {
             next(error);
@@ -61,7 +65,9 @@ class InventoryController {
                 title: 'Vehicle Management',
                 nav,
                 message: req.flash ? req.flash('notice') : null,
-                messageType: req.flash ? 'success' : null
+                messageType: req.flash ? 'success' : null,
+                account: res.locals.account,
+                loggedIn: res.locals.loggedIn
             });
         } catch (error) {
             next(error);
@@ -77,7 +83,9 @@ class InventoryController {
                 title: 'Add New Classification',
                 nav,
                 message: req.flash ? req.flash('notice') : null,
-                messageType: req.flash ? 'success' : null
+                messageType: req.flash ? 'success' : null,
+                account: res.locals.account,
+                loggedIn: res.locals.loggedIn
             });
         } catch (error) {
             next(error);
@@ -116,7 +124,9 @@ class InventoryController {
             res.render('./inventory/add-vehicle', {
                 title: 'Add Vehicle',
                 nav,
-                classificationSelect
+                classificationSelect,
+                account: res.locals.account,
+                loggedIn: res.locals.loggedIn
             });
         } catch (error) {
             next(error);
@@ -175,7 +185,9 @@ class InventoryController {
                 title: `Edit ${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}`,
                 nav,
                 classificationSelect,
-                vehicle
+                vehicle,
+                account: res.locals.account,
+                loggedIn: res.locals.loggedIn
             });
         } catch (error) {
             next(error);

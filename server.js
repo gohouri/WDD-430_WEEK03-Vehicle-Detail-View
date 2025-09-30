@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const session = require('express-session');
 const flash = require('express-flash');
+const cookieParser = require('cookie-parser');
 
 // Initialize database on startup
 try {
@@ -21,6 +22,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 
 // Disable caching for development
 app.use((req, res, next) => {
@@ -39,9 +41,14 @@ app.use(session({
 }));
 app.use(flash());
 
+// Authentication middleware (check login status for all routes)
+const auth = require('./middleware/auth');
+app.use(auth.checkLoginStatus);
+
 // Routes
 app.use('/', require('./routes/index'));
 app.use('/inventory', require('./routes/inventory'));
+app.use('/account', require('./routes/account'));
 app.use('/error', require('./routes/error'));
 
 // Error handling middleware (must be last)

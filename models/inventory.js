@@ -127,6 +127,60 @@ class InventoryModel {
         });
     }
 
+    // Update vehicle in inventory
+    updateVehicle(vehicleData) {
+        return new Promise((resolve, reject) => {
+            const sql = `UPDATE inventory SET 
+                inv_make = ?, inv_model = ?, inv_year = ?, inv_description = ?, 
+                inv_image = ?, inv_thumbnail = ?, inv_price = ?, inv_miles = ?, 
+                inv_color = ?, inv_classification_id = ?
+                WHERE inv_id = ?`;
+            
+            const values = [
+                vehicleData.inv_make,
+                vehicleData.inv_model,
+                vehicleData.inv_year,
+                vehicleData.inv_description,
+                vehicleData.inv_image,
+                vehicleData.inv_thumbnail,
+                vehicleData.inv_price,
+                vehicleData.inv_miles,
+                vehicleData.inv_color,
+                vehicleData.inv_classification_id,
+                vehicleData.inv_id
+            ];
+            
+            this.db.run(sql, values, function(err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve({
+                        success: true,
+                        changes: this.changes
+                    });
+                }
+            });
+        });
+    }
+
+    // Delete vehicle from inventory
+    deleteVehicle(vehicleId) {
+        return new Promise((resolve, reject) => {
+            const sql = `DELETE FROM inventory WHERE inv_id = ?`;
+            
+            this.db.run(sql, [vehicleId], function(err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve({
+                        success: true,
+                        changes: this.changes
+                    });
+                }
+            });
+        });
+    }
+
     close() {
         this.db.close();
     }

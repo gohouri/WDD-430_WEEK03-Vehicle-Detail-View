@@ -1,0 +1,74 @@
+<%- include('../partials/header') %>
+
+<div class="container account-container">
+    <h1>Update Account</h1>
+    
+    <% if (message && message.length > 0) { %>
+        <div class="message">
+            <p><%= message %></p>
+        </div>
+    <% } %>
+
+    <% if (errors && errors.length > 0) { %>
+        <div class="errors">
+            <ul>
+                <% errors.forEach(error => { %>
+                    <li><%= error %></li>
+                <% }); %>
+            </ul>
+        </div>
+    <% } %>
+
+    <!-- Account Update Form -->
+    <h2>Account Update</h2>
+    <form action="/account/update" method="post">
+        <div class="form-group">
+            <label for="firstname">First Name:</label>
+            <input type="text" id="firstname" name="firstname" 
+                   value="<%= account.account_firstname %>" required>
+        </div>
+
+        <div class="form-group">
+            <label for="lastname">Last Name:</label>
+            <input type="text" id="lastname" name="lastname" 
+                   value="<%= account.account_lastname %>" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" 
+                   value="<%= account.account_email %>" required>
+        </div>
+
+        <input type="hidden" name="account_id" value="<%= account.account_id %>">
+
+        <div class="form-group">
+            <button type="submit">Update Account</button>
+        </div>
+    </form>
+
+    <!-- Change Password Form -->
+    <h2>Change Password</h2>
+    <form action="/account/change-password" method="post">
+        <div class="form-group">
+            <label for="newPassword">New Password:</label>
+            <input type="password" id="newPassword" name="newPassword" required minlength="8">
+            <small>Password must be at least 8 characters long. Entering a new password will change your current password.</small>
+        </div>
+
+        <div class="form-group">
+            <label for="confirmPassword">Confirm New Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required minlength="8">
+        </div>
+
+        <input type="hidden" name="account_id" value="<%= account.account_id %>">
+
+        <div class="form-group">
+            <button type="submit">Change Password</button>
+        </div>
+    </form>
+
+    <p><a href="/account/management">Back to Account Management</a></p>
+</div>
+
+<%- include('../partials/footer') %>
