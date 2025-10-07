@@ -85,35 +85,41 @@ nav a:hover {
 }
 
 .btn-primary {
-    background-color: #2c3e50;
-    color: white;
-    border: none;
+    background-color: #1a252f;
+    color: #ffffff;
+    border: 2px solid #1a252f;
     padding: 0.75rem 1.5rem;
     border-radius: 4px;
     cursor: pointer;
     font-size: 1rem;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    text-shadow: none;
 }
 
 .btn-primary:hover {
-    background-color: #34495e;
+    background-color: #2c3e50;
+    border-color: #2c3e50;
+    color: #ffffff;
 }
 
 .btn-secondary {
-    background-color: #6c757d;
-    color: white;
-    border: none;
+    background-color: #495057;
+    color: #ffffff;
+    border: 2px solid #495057;
     padding: 0.75rem 1.5rem;
     border-radius: 4px;
     cursor: pointer;
     font-size: 1rem;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    text-shadow: none;
 }
 
 .btn-secondary:hover {
-    background-color: #5a6268;
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: #ffffff;
 }
 
 /* Hero section */
@@ -756,23 +762,30 @@ footer {
 }
 
 .quick-search-btn {
-    background-color: #2c3e50;
-    color: white;
-    border: none;
+    background-color: #1a252f;
+    color: #ffffff;
+    border: 2px solid #1a252f;
     padding: 0.5rem 0.75rem;
     border-radius: 4px;
     cursor: pointer;
     font-size: 1rem;
-    transition: background-color 0.3s ease;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    text-shadow: none;
 }
 
 .quick-search-btn:hover {
-    background-color: #34495e;
+    background-color: #2c3e50;
+    border-color: #2c3e50;
+    color: #ffffff;
 }
 
 .search-icon {
     font-size: 1rem;
-    color: white;
+    color: #ffffff;
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
 }
 
 /* Search page styles */
@@ -860,7 +873,10 @@ footer {
 
 .search-icon, .clear-icon {
     font-size: 1rem;
-    color: #2c3e50;
+    color: #ffffff;
+    background-color: #2c3e50;
+    padding: 2px 4px;
+    border-radius: 2px;
 }
 
 .quick-search {
