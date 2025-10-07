@@ -7,9 +7,10 @@ async function getNav() {
         const classifications = await inventoryModel.getClassifications();
         inventoryModel.close();
         
-        // Build navigation with Home link first, then dynamic classifications
+        // Build navigation with Home link first, then Search, then dynamic classifications
         const nav = [
-            { link: '/', text: 'Home' }
+            { link: '/', text: 'Home' },
+            { link: '/search', text: 'Search' }
         ];
         
         // Add each classification to navigation
@@ -26,6 +27,7 @@ async function getNav() {
         // Fallback to static navigation if database fails
         return [
             { link: '/', text: 'Home' },
+            { link: '/search', text: 'Search' },
             { link: '/inventory/classification/1', text: 'SUVs' },
             { link: '/inventory/classification/2', text: 'Sedans' },
             { link: '/inventory/classification/3', text: 'Trucks' },

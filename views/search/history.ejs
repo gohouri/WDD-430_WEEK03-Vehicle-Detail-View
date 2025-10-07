@@ -1,0 +1,126 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+    <h1>Search History</h1>
+    <p>View and analyze search patterns and popular queries.</p>
+    
+    <!-- Flash Messages -->
+    <% if (typeof message !== 'undefined' && message) { %>
+        <div class="alert alert-<%= messageType || 'info' %>">
+            <%= message %>
+        </div>
+    <% } %>
+
+    <!-- Search Statistics -->
+    <div class="search-stats">
+        <h2>Search Statistics</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3><%= searchStats.total_searches || 0 %></h3>
+                <p>Total Searches</p>
+            </div>
+            <div class="stat-card">
+                <h3><%= searchStats.unique_queries || 0 %></h3>
+                <p>Unique Queries</p>
+            </div>
+            <div class="stat-card">
+                <h3><%= Math.round(searchStats.avg_results || 0) %></h3>
+                <p>Avg Results per Search</p>
+            </div>
+            <div class="stat-card">
+                <h3><%= searchStats.last_search ? new Date(searchStats.last_search).toLocaleDateString() : 'Never' %></h3>
+                <p>Last Search</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popular Searches -->
+    <% if (popularSearches && popularSearches.length > 0) { %>
+        <div class="popular-searches">
+            <h2>Popular Search Terms</h2>
+            <div class="popular-list">
+                <% popularSearches.forEach((search, index) => { %>
+                    <div class="popular-item">
+                        <span class="rank">#<%= index + 1 %></span>
+                        <span class="query"><%= search.search_query %></span>
+                        <span class="count"><%= search.search_count %> searches</span>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    <% } %>
+
+    <!-- Search History Table -->
+    <div class="search-history">
+        <div class="history-header">
+            <h2>Recent Search History</h2>
+            <form method="POST" action="/search/history/clear" style="display: inline;">
+                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to clear all search history?')">
+                    Clear History
+                </button>
+            </form>
+        </div>
+        
+        <% if (searchHistory && searchHistory.length > 0) { %>
+            <div class="table-responsive">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Search Query</th>
+                            <th>Filters</th>
+                            <th>Results</th>
+                            <th>Timestamp</th>
+                            <th>IP Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% searchHistory.forEach(search => { %>
+                            <tr>
+                                <td class="query-cell">
+                                    <% if (search.search_query) { %>
+                                        <strong><%= search.search_query %></strong>
+                                    <% } else { %>
+                                        <em>No query</em>
+                                    <% } %>
+                                </td>
+                                <td class="filters-cell">
+                                    <% if (search.search_filters) { %>
+                                        <% const filters = JSON.parse(search.search_filters); %>
+                                        <% Object.keys(filters).forEach(key => { %>
+                                            <% if (filters[key] && filters[key] !== 'all' && filters[key] !== '') { %>
+                                                <span class="filter-badge"><%= key %>: <%= filters[key] %></span>
+                                            <% } %>
+                                        <% }); %>
+                                    <% } else { %>
+                                        <em>No filters</em>
+                                    <% } %>
+                                </td>
+                                <td class="results-cell">
+                                    <span class="results-count"><%= search.search_results_count %></span>
+                                </td>
+                                <td class="timestamp-cell">
+                                    <%= new Date(search.search_timestamp).toLocaleString() %>
+                                </td>
+                                <td class="ip-cell">
+                                    <%= search.user_ip || 'Unknown' %>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        <% } else { %>
+            <div class="no-history">
+                <p>No search history available.</p>
+            </div>
+        <% } %>
+    </div>
+
+    <!-- Actions -->
+    <div class="history-actions">
+        <a href="/search" class="btn btn-primary">New Search</a>
+        <a href="/inventory" class="btn btn-outline">Browse Inventory</a>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -27,6 +27,16 @@
                     <% } %>
                 </ul>
             </nav>
+            <div class="header-search">
+                <form method="GET" action="/search/results" class="quick-search-form">
+                    <input type="text" 
+                           name="q" 
+                           placeholder="Quick search..." 
+                           class="quick-search-input"
+                           value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>">
+                    <button type="submit" class="quick-search-btn">🔍</button>
+                </form>
+            </div>
         </div>
     </header>
     <main>

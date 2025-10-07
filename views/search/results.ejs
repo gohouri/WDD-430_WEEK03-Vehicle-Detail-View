@@ -1,0 +1,243 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+    <h1>Search Results</h1>
+    
+    <!-- Search Summary -->
+    <div class="search-summary">
+        <p>
+            <% if (searchParams.query) { %>
+                Found <strong><%= resultsCount %></strong> vehicle<%= resultsCount !== 1 ? 's' : '' %> 
+                matching "<strong><%= searchParams.query %></strong>"
+            <% } else { %>
+                Found <strong><%= resultsCount %></strong> vehicle<%= resultsCount !== 1 ? 's' : '' %> 
+                matching your criteria
+            <% } %>
+        </p>
+        
+        <!-- Active Filters Display -->
+        <div class="active-filters">
+            <% if (searchParams.classification_id && searchParams.classification_id !== 'all') { %>
+                <span class="filter-tag">
+                    Type: <%= classifications.find(c => c.classification_id == searchParams.classification_id)?.classification_name %>
+                    <a href="/search/results?<%= new URLSearchParams({...searchParams, classification_id: 'all'}).toString() %>" class="remove-filter">×</a>
+                </span>
+            <% } %>
+            
+            <% if (searchParams.color && searchParams.color !== 'all') { %>
+                <span class="filter-tag">
+                    Color: <%= searchParams.color %>
+                    <a href="/search/results?<%= new URLSearchParams({...searchParams, color: 'all'}).toString() %>" class="remove-filter">×</a>
+                </span>
+            <% } %>
+            
+            <% if (searchParams.min_price || searchParams.max_price) { %>
+                <span class="filter-tag">
+                    Price: $<%= searchParams.min_price || '0' %> - $<%= searchParams.max_price || '∞' %>
+                    <a href="/search/results?<%= new URLSearchParams({...searchParams, min_price: '', max_price: ''}).toString() %>" class="remove-filter">×</a>
+                </span>
+            <% } %>
+            
+            <% if (searchParams.min_miles || searchParams.max_miles) { %>
+                <span class="filter-tag">
+                    Mileage: <%= searchParams.min_miles || '0' %> - <%= searchParams.max_miles || '∞' %> miles
+                    <a href="/search/results?<%= new URLSearchParams({...searchParams, min_miles: '', max_miles: ''}).toString() %>" class="remove-filter">×</a>
+                </span>
+            <% } %>
+            
+            <% if (searchParams.min_year || searchParams.max_year) { %>
+                <span class="filter-tag">
+                    Year: <%= searchParams.min_year || 'Any' %> - <%= searchParams.max_year || 'Any' %>
+                    <a href="/search/results?<%= new URLSearchParams({...searchParams, min_year: '', max_year: ''}).toString() %>" class="remove-filter">×</a>
+                </span>
+            <% } %>
+        </div>
+    </div>
+
+    <!-- Refine Search -->
+    <div class="refine-search">
+        <button class="btn btn-outline" onclick="toggleRefineSearch()">
+            <i class="filter-icon">🔧</i> Refine Search
+        </button>
+        
+        <div id="refine-search-form" class="refine-form" style="display: none;">
+            <form method="GET" action="/search/results" class="search-form">
+                <input type="hidden" name="q" value="<%= searchParams.query || '' %>">
+                
+                <div class="filters-row">
+                    <div class="form-group">
+                        <label for="classification_id">Vehicle Type</label>
+                        <select id="classification_id" name="classification_id" class="form-control">
+                            <option value="all" <%= searchParams.classification_id === 'all' ? 'selected' : '' %>>All Types</option>
+                            <% classifications.forEach(classification => { %>
+                                <option value="<%= classification.classification_id %>" 
+                                        <%= searchParams.classification_id == classification.classification_id ? 'selected' : '' %>>
+                                    <%= classification.classification_name %>
+                                </option>
+                            <% }); %>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="color">Color</label>
+                        <select id="color" name="color" class="form-control">
+                            <option value="all" <%= searchParams.color === 'all' ? 'selected' : '' %>>All Colors</option>
+                            <% colors.forEach(color => { %>
+                                <option value="<%= color %>" <%= searchParams.color === color ? 'selected' : '' %>>
+                                    <%= color %>
+                                </option>
+                            <% }); %>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="filters-row">
+                    <div class="form-group">
+                        <label for="min_price">Min Price</label>
+                        <input type="number" 
+                               id="min_price" 
+                               name="min_price" 
+                               value="<%= searchParams.min_price || '' %>" 
+                               placeholder="Min Price"
+                               min="0"
+                               step="1000"
+                               class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="max_price">Max Price</label>
+                        <input type="number" 
+                               id="max_price" 
+                               name="max_price" 
+                               value="<%= searchParams.max_price || '' %>" 
+                               placeholder="Max Price"
+                               min="0"
+                               step="1000"
+                               class="form-control">
+                    </div>
+                </div>
+
+                <div class="filters-row">
+                    <div class="form-group">
+                        <label for="min_miles">Min Mileage</label>
+                        <input type="number" 
+                               id="min_miles" 
+                               name="min_miles" 
+                               value="<%= searchParams.min_miles || '' %>" 
+                               placeholder="Min Miles"
+                               min="0"
+                               step="1000"
+                               class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="max_miles">Max Mileage</label>
+                        <input type="number" 
+                               id="max_miles" 
+                               name="max_miles" 
+                               value="<%= searchParams.max_miles || '' %>" 
+                               placeholder="Max Miles"
+                               min="0"
+                               step="1000"
+                               class="form-control">
+                    </div>
+                </div>
+
+                <div class="filters-row">
+                    <div class="form-group">
+                        <label for="min_year">Min Year</label>
+                        <input type="number" 
+                               id="min_year" 
+                               name="min_year" 
+                               value="<%= searchParams.min_year || '' %>" 
+                               placeholder="Min Year"
+                               min="<%= yearRange.min_year %>"
+                               max="<%= yearRange.max_year %>"
+                               class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="max_year">Max Year</label>
+                        <input type="number" 
+                               id="max_year" 
+                               name="max_year" 
+                               value="<%= searchParams.max_year || '' %>" 
+                               placeholder="Max Year"
+                               min="<%= yearRange.min_year %>"
+                               max="<%= yearRange.max_year %>"
+                               class="form-control">
+                    </div>
+                </div>
+
+                <div class="search-buttons">
+                    <button type="submit" class="btn btn-primary">Apply Filters</button>
+                    <button type="button" class="btn btn-secondary" onclick="toggleRefineSearch()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Results -->
+    <% if (searchResults.length > 0) { %>
+        <div class="search-results">
+            <% searchResults.forEach(vehicle => { %>
+                <div class="vehicle-card">
+                    <div class="vehicle-image">
+                        <img src="<%= vehicle.inv_thumbnail || vehicle.inv_image || '/images/vehicles/no-image.jpg' %>" 
+                             alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>"
+                             onerror="this.src='/images/vehicles/no-image.jpg'">
+                    </div>
+                    
+                    <div class="vehicle-info">
+                        <h3><%= vehicle.inv_year %> <%= vehicle.inv_make %> <%= vehicle.inv_model %></h3>
+                        <p class="vehicle-classification"><%= vehicle.classification_name %></p>
+                        
+                        <div class="vehicle-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Price:</span>
+                                <span class="detail-value price">$<%= vehicle.inv_price.toLocaleString() %></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Mileage:</span>
+                                <span class="detail-value"><%= vehicle.inv_miles.toLocaleString() %> miles</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Color:</span>
+                                <span class="detail-value"><%= vehicle.inv_color %></span>
+                            </div>
+                        </div>
+                        
+                        <% if (vehicle.inv_description) { %>
+                            <p class="vehicle-description"><%= vehicle.inv_description %></p>
+                        <% } %>
+                        
+                        <div class="vehicle-actions">
+                            <a href="/inventory/detail/<%= vehicle.inv_id %>" class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    <% } else { %>
+        <div class="no-results">
+            <h3>No vehicles found</h3>
+            <p>Try adjusting your search criteria or browse our inventory by classification.</p>
+            <div class="no-results-actions">
+                <a href="/search" class="btn btn-primary">New Search</a>
+                <a href="/inventory/classification/1" class="btn btn-outline">Browse SUVs</a>
+                <a href="/inventory/classification/2" class="btn btn-outline">Browse Sedans</a>
+                <a href="/inventory/classification/3" class="btn btn-outline">Browse Trucks</a>
+                <a href="/inventory/classification/4" class="btn btn-outline">Browse Coupes</a>
+            </div>
+        </div>
+    <% } %>
+</div>
+
+<script>
+function toggleRefineSearch() {
+    const form = document.getElementById('refine-search-form');
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+}
+</script>
+
+<%- include('../partials/footer') %>

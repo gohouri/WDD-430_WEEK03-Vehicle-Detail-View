@@ -50,6 +50,17 @@ db.serialize(() => {
         FOREIGN KEY (inv_classification_id) REFERENCES classifications (classification_id)
     )`);
 
+    // Create search_history table
+    db.run(`CREATE TABLE IF NOT EXISTS search_history (
+        search_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        search_query TEXT NOT NULL,
+        search_filters TEXT,
+        search_results_count INTEGER NOT NULL,
+        search_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+        user_ip TEXT,
+        user_agent TEXT
+    )`);
+
     // Insert sample classifications
     const classifications = [
         { id: 1, name: 'SUV' },

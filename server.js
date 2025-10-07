@@ -49,6 +49,7 @@ app.use(auth.checkLoginStatus);
 app.use('/', require('./routes/index'));
 app.use('/inventory', require('./routes/inventory'));
 app.use('/account', require('./routes/account'));
+app.use('/search', require('./routes/search'));
 app.use('/error', require('./routes/error'));
 
 // Error handling middleware (must be last)
