@@ -29,12 +29,16 @@
             </nav>
             <div class="header-search">
                 <form method="GET" action="/search/results" class="quick-search-form">
+                    <label for="quick-search-input" class="sr-only">Quick search</label>
                     <input type="text" 
+                           id="quick-search-input"
                            name="q" 
                            placeholder="Quick search..." 
                            class="quick-search-input"
                            value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>">
-                    <button type="submit" class="quick-search-btn">🔍</button>
+                    <button type="submit" class="quick-search-btn" aria-label="Search">
+                        <span class="search-icon">🔍</span>
+                    </button>
                 </form>
             </div>
         </div>
